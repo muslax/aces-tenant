@@ -13,6 +13,7 @@ export default function Index() {
   const [groups, setGroups] = useState([]);
   const [schedules, setSchedules] = useState([]);
   const [meta, setMeta] = useState({});
+  const [lastGroup, setLastGroup] = useState(null);
 
   const [options, setOptions] = useState([]);
 
@@ -30,6 +31,7 @@ export default function Index() {
     setGroups(_groups);
     setMeta(_grouping);
     setSchedules(createSchedules(_groups));
+    setLastGroup(_groups[_groups.length - 1]);
 
   }, [number])
 
@@ -64,9 +66,9 @@ export default function Index() {
         <p className="text-xs text-gray-400">Last Group</p>
         <div className="flex-shrink-0 border border-gray-500 px-4 py-2">
           <p className="font-bold mb-3">
-            {groups[groups.length -1].groupName} &nbsp;&mdash;&nbsp; {groups[groups.length -1].persons.length}
+            {lastGroup ? lastGroup.groupName : '---'} &nbsp;&mdash;&nbsp; {lastGroup ? lastGroup.persons.length : '-'}
           </p>
-          {groups[groups.length -1].persons.map(p => (
+          {lastGroup && lastGroup.persons.map(p => (
             <p key={p}>{p}</p>
           ))}
         </div>
