@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  input[type='text'],
+  input[type='password'],
+  input[type='email'],
+  input[type='number'],
+  input[type='url'],
+  input[type='date'],
+  input[type='datetime-local'],
+  input[type='month'],
+  input[type='week'],
+  input[type='time'],
+  input[type='search'],
+  input[type='tel'],
+  input[type='checkbox'],
+  input[type='radio'],
+  select,
+  select[multiple],
+  textarea {
+    /* @apply text-sm placeholder-gray-300 rounded-sm border-gray-300 hover:border-indigo-300 focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100; */
+    @apply text-sm placeholder-gray-400 rounded-sm focus:ring-2;
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+  input[type='date'] {
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+  pre {
+    font-size: .625rem;
+    overflow-x: auto;
+    margin: 1rem 0
+  }
+}
+
+
+body {
+  @apply antialiased text-sm text-gray-700;
+  /* font-size: 14px; */
+}
+pre {
+  @apply text-red-500;
+}
+.text-xss {
+  font-size: .6875rem;
+}
+.progress {
+  background-image: url(/mango-in-progress-01.gif);
+}
+.input-license {
+  @apply border-gray-300 hover:border-indigo-300 focus:border-indigo-300 focus:ring-indigo-100;
+}
+.input-project {
+  @apply border-gray-300 hover:border-gray-400 focus:border-blue-400 focus:ring-blue-100;
+}
+input[type='text'].tight {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+input[type='date'].tight {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+.error {
+  @apply border-red-300 hover:border-red-300 focus:ring-red-100;
+}
+.button-link-license {
+  @apply flex items-center bg-gray-600 bg-opacity-70 rounded-sm pl-4 pr-5 h-8 border-l-8 border-gray-500 hover:border-gray-500 hover:bg-gray-500 text-sm text-white ;
+}
+.form-box {
+  @apply rounded-sm border border-gray-300 hover:border-gray-400 hover:shadow-sm;
+}
