@@ -43,7 +43,7 @@ const Dashboard = ({ user }) => {
               <a className="font-bold text-blue-500 hover:text-blue-600">{project.title}</a>
             </Link>
           </div>
-          <div className="text-xs">
+          <div className="">
             <p className="mb-1">Client: <span className="font-semibold">{project.client.name}</span></p>
             <p className="mb-1">Admin: <span className="font-semibold">{project.admin.fullname}</span></p>
           </div>

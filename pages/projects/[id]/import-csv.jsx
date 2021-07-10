@@ -8,32 +8,34 @@ import useProject from "hooks/useProject";
 import ProjectNotFound from "components/project/ProjectNotFound";
 import ProjectLayout from "components/layout/ProjectLayout";
 import Hero from "components/project/Hero";
-import Deployment from "components/project/deployment/Deployment";
+import ImportCSV from "components/project/persona/ImportCSV";
 
-const DeploymentPage = () => {
+const PersonaPage = () => {
   const { user } = useUser();
   const router = useRouter();
   const { id: pid } = router.query;
-  const { project, isError, isLoading, mutate } = useProject(pid);
+  const { project, isError, isLoading } = useProject(pid);
 
   if (isLoading) return <div className="my-8 text-center">...</div>;
-  if (isError) return <>ERROR</>;
-  if (user.license._id != project.lid) return <ProjectNotFound />
+
+  if (isError || user.license._id != project.lid) return <ProjectNotFound />
 
   return (
     <div>
       <Head>
-        <title>{project?.title} - ACES</title>
+        <title>{project.title} - ACES</title>
       </Head>
 
-      <Hero project={project} title="Deployment" />
+      <Hero project={project} title="Import CSV" />
 
-      <Deployment user={user} project={project} mutate={mutate} />
+      <ImportCSV user={user} project={project} />
+
+      {/* <pre>PROJECT {JSON.stringify(project, null, 2)}</pre> */}
     </div>
   )
 }
 
-DeploymentPage.redirectUnAuthenticatedTo = ROUTES.Home;
-DeploymentPage.getLayout = (page) => <ProjectLayout>{page}</ProjectLayout>
+PersonaPage.redirectUnAuthenticatedTo = ROUTES.Home;
+PersonaPage.getLayout = (page) => <ProjectLayout>{page}</ProjectLayout>
 
-export default DeploymentPage;
+export default PersonaPage;

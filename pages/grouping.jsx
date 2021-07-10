@@ -98,6 +98,12 @@ export default function Index() {
         </tbody>
       </table>
 
+      <div className="flex space-x-4">
+        <pre>GRP {groups.length} {JSON.stringify(groups[0], null, 2)}</pre>
+        <pre>SCH {schedules.length} {JSON.stringify(schedules[0], null, 2)}</pre>
+        <pre>META {JSON.stringify(meta, null, 2)}</pre>
+      </div>
+
       <h3 className="font-bold mt-10 mb-3">Structure</h3>
       <div className="">
         <table className="text-xs font-mono">

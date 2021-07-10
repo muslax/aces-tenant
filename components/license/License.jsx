@@ -36,7 +36,7 @@ const License = ({ user }) => {
               Contact Name:
             </td>
             <td className="font-semibold py-3">
-              {license.contactName}
+              {license.contact.fullname}
             </td>
           </tr>
           <tr className="border-t">

@@ -3,17 +3,21 @@ export const ACES_DB = 'aces_beta';
 export const EV_DB = 'aces_ev';
 
 export const DB = {
-  MODULES:      'modules',
   LICENSES:     'licenses',
   USERS:        'users',
-  USERVIEW:     'UserView',
+  TENANTS:      'tenants',
+  MODULES:      'modules',
   CLIENTS:      'clients',
   PROJECTS:     'projects',
-  PROJECTVIEW:  'ProjectView',
   GROUPS:       'groups',
   BATCHES:      'batches',
   GUESTS:       'guests',
   PERSONAE:     'personae',
+  // ====================
+  VLOGIN:       'VLogin',
+  VTENANTS:     'VTenants',
+  VPROJECTS:    'VProjects',
+  VBATCHES:     'VBatches',
   // ========================
   GPQ:          'gpq',
   MATE:         'mate',

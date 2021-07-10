@@ -21,7 +21,7 @@
   select[multiple],
   textarea {
     /* @apply text-sm placeholder-gray-300 rounded-sm border-gray-300 hover:border-indigo-300 focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100; */
-    @apply text-sm placeholder-gray-400 rounded-sm focus:ring-2;
+    /* @apply text-sm placeholder-gray-400 rounded-sm focus:ring-2; */
     padding-top: 6px;
     padding-bottom: 6px;
   }
@@ -51,10 +51,10 @@ pre {
   background-image: url(/mango-in-progress-01.gif);
 }
 .input-license {
-  @apply border-gray-300 hover:border-indigo-300 focus:border-indigo-300 focus:ring-indigo-100;
+  @apply text-sm rounded-sm border-gray-300 hover:border-indigo-300 focus:border-indigo-300 focus:ring-indigo-100;
 }
 .input-project {
-  @apply border-gray-300 hover:border-gray-400 focus:border-blue-400 focus:ring-blue-100;
+  @apply text-sm rounded-sm border-gray-300 hover:border-gray-400 focus:border-blue-400 focus:ring-blue-100;
 }
 input[type='text'].tight {
   padding-top: 4px;

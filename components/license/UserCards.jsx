@@ -88,11 +88,11 @@ const UserCards = ({ user, persons, mutate }) => {
       {persons.map(person => (
         <CardBox key={person._id} icon={person.username == user.username ? iconSelf : icon}>
           <div className="flex">
-            <div className="flex-grow font-bold mb-1">{person.fullname}</div>
-            <div>
+            <div className="h-6 flex-grow font-bold mb-1">{person.fullname}</div>
+            <div className="h-6">
               {canEdit(person) && selected?._id != person._id  && (
                 <button
-                  className="flex items-center space-x-1 text-xs text-gray-500 rounded-sm border hover:border-indigo-400 hover:text-indigo-500 pl-2 pr-3 py-1"
+                  className="h-6 flex items-center space-x-1 text-xs text-gray-500 rounded-sm border hover:border-indigo-400 hover:text-indigo-500 pl-2 pr-3"
                   onClick={e => setSelected(person)}
                 >
                   <CogIcon className="w-4 h-4 text-gray-500s" />
@@ -107,7 +107,7 @@ const UserCards = ({ user, persons, mutate }) => {
               )}
             </div>
           </div>
-          <div className="text-xs text-gray-500">
+          <div className=" text-gray-500">
             {person.email}
           </div>
           {selected?._id == person._id && (

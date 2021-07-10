@@ -4,10 +4,11 @@ import { CogIcon } from '@heroicons/react/outline';
 import fetchJson from 'lib/fetchJson';
 import { APIROUTES } from 'config/routes';
 import { generatePOSTData, getCurrentBatch } from 'lib/utils';
-import { mutate } from 'swr';
 
-export default function BatchTable({ project, currentBatch, callback, editable }) {
-  const batches = project.batches.sort((a, b) => {
+export default function BatchTable({ project, currentBatch, callback, editable, mutate }) {
+  // const pid = batches[0].pid;
+  const pid = project._id;
+  const _batches = project.batches.sort((a, b) => {
     if (a._id > b._id) return -1;
     else if (a._id < b._id) return 1;
     return 0;
@@ -23,7 +24,7 @@ export default function BatchTable({ project, currentBatch, callback, editable }
       date1: batchCopy.date1,
     }))
 
-    mutate(`${APIROUTES.GET_PROJECT}&pid=${project._id}`);
+    mutate(`${APIROUTES.GET_PROJECT}&pid=${pid}`);
     setVStack(null);
     // callback(batchCopy);
     if (batchCopy._id == currentBatch?._id) {
@@ -35,26 +36,24 @@ export default function BatchTable({ project, currentBatch, callback, editable }
     }
   }
 
-  async function deleteBatch(e, v) {
+  async function deleteBatch(e, id) {
     // Check if target batch = currentBatch
     // If so, nullify currentBatch first
-    if (v == currentBatch?._id) {
-      window.localStorage.removeItem(project._id);
-      callback(getCurrentBatch(project, v));
-      // getCurrentBatch(project, v);
-      // setVStack(null)
+    if (id == currentBatch?._id) {
+      window.localStorage.removeItem(pid);
+      callback(getCurrentBatch(project, id));
     }
 
     await fetchJson(APIROUTES.POST.DELETE_BATCH, generatePOSTData({
-      id: v,
+      id: id,
     }))
 
-    mutate(`${APIROUTES.GET_PROJECT}&pid=${project._id}`);
+    mutate();
     setVStack(null);
   }
 
   function getLocalStorage() {
-    return window.localStorage.getItem(project._id);
+    return window.localStorage.getItem(pid);
   }
 
   return (
@@ -62,7 +61,7 @@ export default function BatchTable({ project, currentBatch, callback, editable }
       <h3 className="text-base font-bold mb-2">Project Batches {editable ? 'EDIT' : 'LOCKED'}</h3>
 
       <table className="w-full leading-relaxed border-b mb-10">
-        {batches.map(b => (
+        {_batches.map(b => (
           <tbody key={b._id}>
           {(!vStack || vStack._id != b._id) && (
             <tr className={`${b._id == currentBatch?._id ? 'bg-gray-50' : ''} border-t align-middle`}>

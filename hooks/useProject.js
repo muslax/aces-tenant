@@ -3,7 +3,7 @@ import fetchJson from "lib/fetchJson"
 import useSWR from "swr"
 
 export default function useProject(pid) {
-  const { data, error, mutate } = useSWR(`${APIROUTES.GET_PROJECT}&pid=${pid}`, fetchJson)
+  const { data, error, mutate } = useSWR(`${APIROUTES.GET.PROJECT}&pid=${pid}`, fetchJson)
 
   return {
     project: data,

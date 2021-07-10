@@ -3,7 +3,7 @@ import fetchJson from "lib/fetchJson"
 import useSWR from "swr"
 
 export default function useUsers() {
-  const { data, error, mutate } = useSWR(APIROUTES.GET_USERS, fetchJson)
+  const { data, error, mutate } = useSWR(APIROUTES.GET.USERS, fetchJson)
 
   return {
     users: data,

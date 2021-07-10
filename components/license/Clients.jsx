@@ -39,7 +39,7 @@ const Clients = ({ user }) => {
               )}
             </div>
           </div>
-          <div className="text-xs text-gray-500">
+          <div className="text-gray-500">
             <p className="">{client.address}</p>
             <p className="">{client.city}</p>
             <p className="">Telepon: {client.phone}</p>
@@ -49,7 +49,7 @@ const Clients = ({ user }) => {
                 {client.projects.map(prj => (
                   <div key={prj._id} className="flex items-center space-x-2 border-t border-gray-100 py-2">
                     <FolderIcon className="w-4 h-4 text-gray-400" />
-                    <div className="flex-grow text-xs">
+                    <div className="flex-grow">
                       <Link href={`/projects/${prj._id}`}>
                         <a className="text-blue-500">
                           {prj.title}

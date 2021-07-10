@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { ShieldCheckIcon } from '@heroicons/react/solid';
 import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/outline';
 
 import { APIROUTES } from 'config/routes';
@@ -12,13 +11,11 @@ import ActiveBatch from './ActiveBatch';
 import BatchTable from './BatchTable';
 
 export default function Overview({ user, project, mutate }) {
-
-  const [currentBatch, setCurrentBatch] = useState(getCurrentBatch(project)); // useState(project.batches[0]);
+  const [currentBatch, setCurrentBatch] = useState(getCurrentBatch(project));
   const [showInfo, setShowInfo] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
-
 
   useEffect(() => {
     setCurrentBatch(getCurrentBatch(project));
@@ -54,7 +51,7 @@ export default function Overview({ user, project, mutate }) {
     <div className="mb-9">
       {!showInfo && <>
         <button
-          className="flex items-center text-blue-500 hover:space-x-1"
+          className="flex items-center text-blue-500"
           onClick={e => setShowInfo(!showInfo)}
         >
           <span>Show Info</span>
@@ -66,7 +63,7 @@ export default function Overview({ user, project, mutate }) {
           className="flex items-center text-blue-500 space-x-1"
           onClick={e => setShowInfo(!showInfo)}
         >
-          <span>Show Info</span>
+          <span>Hide Info</span>
           <ChevronDownIcon className="w-5 h-5 text-gray-600s" />
         </button>
       </>}
@@ -81,6 +78,7 @@ export default function Overview({ user, project, mutate }) {
       currentBatch={currentBatch}
       callback={setCurrentBatch}
       editable={isAdmin()}
+      mutate={mutate}
     />
 
     <div className="my-10">

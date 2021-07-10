@@ -14,11 +14,12 @@ const ModulesPage = () => {
   const { user } = useUser();
   const router = useRouter();
   const { id: pid } = router.query;
+
   const { project, isError, isLoading } = useProject(pid);
 
   if (isLoading) return <div className="my-8 text-center">...</div>;
-
-  if (isError || user.license._id != project.lid) return <ProjectNotFound />
+  if (isError) return <>ERROR</>;
+  if (user.license._id != project.lid) return <ProjectNotFound />
 
   return (
     <div>
@@ -26,7 +27,7 @@ const ModulesPage = () => {
         <title>{project.title} - ACES</title>
       </Head>
 
-      <Hero project={project} title="Modules" />
+      <Hero project={project} title="ACES Modules" />
 
       <Modules user={user} project={project} />
     </div>
