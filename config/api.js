@@ -37,5 +37,7 @@ export const API = {
 
     SAVE_CSV_DATA:          'save-csv-data',
     SAVE_DEPLOYMENT:        'save-deployment',
+    UPDATE_PERSONA:         'update-persona',
+    DELETE_PERSONA:         'delete-persona',
   },
 };

@@ -69,7 +69,8 @@ export default function PersistedGroups({ groups }) {
             </div>
             {group.persons.map(id => <button
               key={id}
-              className="w-full bg-gray-50 text-left text-xs truncate px-2 py-1 mb-1"
+              className={`${names[id] ? '' : 'text-red-500'}
+              w-full bg-gray-50 text-left text-xs truncate px-2 py-1 mb-1`}
               onClick={e => {
                 if (selections.length == 0) {
                   setSelections([{
@@ -85,7 +86,7 @@ export default function PersistedGroups({ groups }) {
 
                 test();
               }}
-            >{names[id]}</button>)}
+            >{names[id] || `- DELETED`}</button>)}
           </div>
         ))}
       </div>

@@ -32,7 +32,7 @@ export function TableCSV({ data }) {
         currentLevel,
         targetLevel,
         xfpwd }, index) => (
-          <tr key={email} className={`bg-white border-b`}>
+          <tr key={username} className={`bg-white border-b`}>
             <td className="h-7 px-2 py-1 text-right">{index + 1}</td>
             <td className="h-7 px-2 py-1 border-l border-gray-400 border-opacity-25">{fullname}</td>
             <td className="h-7 px-2 py-1 border-l border-gray-400 border-opacity-25">{username}</td>

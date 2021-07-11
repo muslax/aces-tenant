@@ -16,7 +16,7 @@ export default function NoPersonae({ project, isAdmin }) {
               <Link href={`/projects/${project._id}/import-csv`}>
                 <a
                   className="inline-flex font-semibold text-green-500 rounded-sm border border-green-500 hover:border-green-400 hover:text-green-600 active:border-green-500 active:text-green-700 px-5 py-2"
-                >Instal Modul ACES</a>
+                >Upload CSV File</a>
               </Link>
             </p>
         </div>

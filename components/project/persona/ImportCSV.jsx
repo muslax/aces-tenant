@@ -4,7 +4,7 @@ import Link from "next/link";
 import { CSVReader } from "react-papaparse";
 import { XIcon } from "@heroicons/react/solid";
 
-import { generatePOSTData, getCurrentBatch, isAdmin } from "lib/utils";
+import { createRandomPassword, createRandomUsername, generatePOSTData, getCurrentBatch, isAdmin } from "lib/utils";
 import { APIROUTES } from "config/routes";
 import NoPersonae from "./NoPersonae";
 import useModules from "hooks/useModules";
@@ -124,9 +124,35 @@ export default function ImportCSV({ user, project }) {
 
   useEffect(() => {
     if (csvData && csvData.length > 1) {
-      let array = []
+      let array = [];
+      let usernames = [];
+
       csvData.forEach(({ data }, index) => {
         if (data.length == 10 && data[0] && data[0].toLowerCase() !== 'fullname') {
+          const fn = data[0].toLowerCase().trim().split(" ");
+          let username = data[1].toLowerCase();
+
+          if (!username) username = fn[0];
+
+          const sfx = createRandomUsername();
+
+          if (usernames.includes(username)) {
+            // username = fn[0];
+            if (username.length < 5) {
+              username = username + sfx.substr(0, 6 - username.length);
+            }
+            if (usernames.includes(username)) {
+              username = username.substr(0, 3);
+              username =  username + sfx.substr(0, 3);
+            }
+          }
+
+          if (username.length < 5) {
+            username =  username + sfx.substr(0, 6 - username.length);
+          }
+
+          usernames.push(username);
+
           array.push({
             _id: null,
             lid: user.license._id,
@@ -134,7 +160,7 @@ export default function ImportCSV({ user, project }) {
             bid: currentBatch._id,
             disabled: false,
             fullname: data[0].trim(),
-            username: data[1].trim().toLowerCase(),
+            username: username,
             email: data[2].trim().toLowerCase(),
             gender: data[3].trim(),
             birth: data[4].trim(),
@@ -143,7 +169,7 @@ export default function ImportCSV({ user, project }) {
             position: data[7].trim(),
             currentLevel: data[8].trim(),
             targetLevel: data[9].trim(),
-            group: null,
+            group: "",
             tests: testIds,
             sims: simIds,
             workingOn: null,
@@ -173,13 +199,13 @@ export default function ImportCSV({ user, project }) {
   return (
     <div className="">
       {warning && (
-        <div className="bg-yellow-300 flex items-start p-2 -mt-px">
+        <div className="bg-yellow-100 flex items-start p-2 -mt-px">
           <p className="flex-grow pl-2">
-            Data peserta yang diimport dari file CSV akan menggantikan seluruh
+            File CSV akan menggantikan seluruh
             data peserta dalam batch.
           </p>
           <button onClick={e => setWarning(false)}>
-            <XIcon className="w-5 h-5" />
+            <XIcon className="w-4 h-4 text-yellow-600" />
           </button>
         </div>
       )}
@@ -274,12 +300,11 @@ export default function ImportCSV({ user, project }) {
         <TableCSV data={personaData} />
       </div>
 
-      <div className="flex items-start space-x-2">
-        {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}
+      {/* <div className="flex items-start space-x-2">
         <pre>{JSON.stringify(currentBatch, null, 2)}</pre>
         <pre>{JSON.stringify(testIds, null, 2)}</pre>
         <pre className="w-28">{JSON.stringify(modules[0], null, 2)}</pre>
-      </div>
+      </div> */}
 
       {submitting && <PostModal message="Uploading data... " />}
 

@@ -9,6 +9,7 @@ import ProjectNotFound from "components/project/ProjectNotFound";
 import ProjectLayout from "components/layout/ProjectLayout";
 import Hero from "components/project/Hero";
 import Personae from "components/project/persona/Personae";
+import Link from "next/link";
 
 const PersonaPage = () => {
   const { user } = useUser();
@@ -30,7 +31,15 @@ const PersonaPage = () => {
 
       <Personae user={user} project={project} />
 
-      <pre>PROJECT {JSON.stringify(project, null, 2)}</pre>
+      <div className="mt-24 flex justify-center space-x-4 text-gray-300">
+        <Link href="/sample-data-usernames.csv">
+          <a download="/sample-data-usernames.csv" className="text-blue-500">Sample CSV dengan username</a>
+        </Link>
+        <span>|</span>
+        <Link href="/sample-data.csv">
+          <a download="/sample-data.csv" className="text-blue-500">Sample CSV tanpa username</a>
+        </Link>
+      </div>
     </div>
   )
 }

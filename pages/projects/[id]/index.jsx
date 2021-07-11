@@ -31,7 +31,7 @@ const ProjectPage = () => {
 
       <Overview user={user} project={project} mutate={mutate} />
 
-      <pre>PROJECT {JSON.stringify(project, null, 2)}</pre>
+      {/* <pre>PROJECT {JSON.stringify(project, null, 2)}</pre> */}
     </div>
   )
 }

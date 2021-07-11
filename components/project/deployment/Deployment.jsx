@@ -369,7 +369,7 @@ export default function Deployment({ user, project, mutate }) {
         <pre>RUNTIME {JSON.stringify(schedules, null, 2)}</pre>
       </div> */}
 
-      <pre>BATCH {JSON.stringify(currentBatch, null, 2)}</pre>
+      {/* <pre>BATCH {JSON.stringify(currentBatch, null, 2)}</pre> */}
 
       {submitting && <PostModal message="Save deployment data ..." />}
     </div>
