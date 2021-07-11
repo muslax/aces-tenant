@@ -6,6 +6,7 @@ import { API } from "config/api";
 import fetchJson from "lib/fetchJson";
 import { APIROUTES } from "config/routes";
 import { generatePOSTData } from "lib/utils";
+import Subheading from "./Subheading";
 
 export default function ProjectInfo({ user, project, mutate }) {
   const { users, isError, isLoading } = useUsers();
@@ -54,9 +55,8 @@ export default function ProjectInfo({ user, project, mutate }) {
   }
 
   return (
-    <div className="mb-8">
-      <div className="flex items-center space-x-2 mb-2">
-        <h3 className="flex-grow text-base font-bold">Project Info</h3>
+    <div className="mb-10">
+      <Subheading title="Project Info">
         {!editing && canEdit && (
           <button
             className="px-1 text-blue-500"
@@ -66,102 +66,66 @@ export default function ProjectInfo({ user, project, mutate }) {
             }}
           >Edit Info</button>
         )}
-      </div>
+      </Subheading>
 
-      {!editing && (
-        <table className="w-full leading-relaxed">
+      <table className="w-full border--b leading-relaxed">
+        {editing && (
           <tbody>
-            <tr className="align-top border-t">
-              <td className="py-2 w-1/4">ID proyek:</td>
-              <td className="py-2 ">{project._id}</td>
+            <tr className="border-t">
+              <td className="h-10 py-2 w-1/5">ID proyek:</td>
+              <td className="h-10 p-2 text-gray-400">{project._id}</td>
             </tr>
-            <tr className="align-top border-t">
-              <td className="py-2 w-1/4">Judul:</td>
-              <td className="py-2 ">{project.title}</td>
-            </tr>
-            <tr className="align-top border-t">
-              <td className="py-2 w-1/4">Deskripsi:</td>
-              <td className="py-2 ">{project.description}</td>
-            </tr>
-            <tr className="align-top border-t">
-              <td className="py-2 w-1/4">Tanggal&nbsp;kontrak:</td>
-              <td className="py-2 ">{project.contractDate}</td>
-            </tr>
-            <tr className="align-middle border-t">
-              <td className="py-2 w-1/4">Admin:</td>
-              <td className="py-2 ">
-                <div className="flex space-x-3">
-                  <select
-                    disabled={!user.licenseOwner}
-                    value={admin}
-                    className="input-project hover:border-gray-400 focus:ring-blue-100 focus:border-blue-300"
-                    onChange={e => setAdmin(e.target.value)}
-                  >
-                    {users.map(u => <option key={u.username} value={u.username}>{u.fullname}</option>)}
-                  </select>
-                  {admin != project.admin.username && <button
-                    className="rounded-sm borders px-5 font-semibold bg-green-500 hover:bg-green-600 active:bg-green-700 text-white"
-                    onClick={changeAdmin}
-                  >Save</button>}
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      )}
-
-      {editing && (
-        <div className="rounded border px-4 py-3">
-        <table className="w-full leading-relaxed">
-          <tbody>
-            <tr className="align-middle border-t-">
-              <td className="py-1 w-1/4">Judul:</td>
-              <td className="py-1">
+            <tr className="border-t">
+              <td className="h-10 py-2 w-1/5">Judul:</td>
+              <td className="h-10 py--1 ">
                 <input
                   type="text"
                   value={title}
-                  className="input-project w-full"
+                  disabled={!canEdit}
                   onChange={e => setTitle(e.target.value)}
+                  className="text-sm w-full h-8 leading-tight px-2 py-1 rounded bg-gray-100 border-gray-100 focus:bg-white focus:border-blue-300 focus:ring-blue-100"
                 />
               </td>
             </tr>
-            <tr className="align-middle border-t-">
-              <td className="py-1 w-1/4">Deskripsi:</td>
-              <td className="py-1 pb-px">
+            <tr className="align-top border-t">
+              <td className="h-10 py-2 w-1/5">Deskripsi:</td>
+              <td className="pt-1 pb-0">
                 <textarea
                   value={description}
-                  className="input-project w-full"
+                  rows={3}
                   onChange={e => setDescription(e.target.value)}
+                  className="text-sm block w-full leading-tight- px-2 py-1 rounded bg-gray-100 border-gray-100 focus:bg-white focus:border-blue-300 focus:ring-blue-100"
                 ></textarea>
+                <div className="h-1"></div>
               </td>
             </tr>
-            <tr className="align-middle border-t-">
-              <td className="py-1 w-1/4">Tanggal&nbsp;kontrak:</td>
-              <td className="py-1 ">
-                <input
-                  type="date"
+            <tr className="border-t">
+              <td className="h-10 py-2 w-1/5">Tanggal&nbsp;kontrak:</td>
+              <td className="h-10">
+                <input type="date"
                   value={contractDate}
-                  className="input-project w-40"
+                  value={contractDate}
                   onChange={e => setContractDate(e.target.value)}
+                  className="text-sm w-full w--36 h-8 leading-tight px-2 py-1 rounded bg-gray-100 border-gray-100 focus:bg-white focus:border-blue-300 focus:ring-blue-100"
                 />
               </td>
             </tr>
-            <tr className="align-middle border-t-">
-              <td className="py-1 w-1/4">Admin:</td>
-              <td className="py-1 ">
+            <tr className="border-t">
+              <td className="h-10 py-2 w-1/5">Admin:</td>
+              <td className="h-10">
                 <select
-                  disabled={!user.licenseOwner}
                   value={admin}
-                  className="input-project"
+                  disabled={!user.licenseOwner}
                   onChange={e => setAdmin(e.target.value)}
+                  className="text-sm w-full h-8 leading-tight px-2 pr-9 py-1 rounded bg-gray-100 border-gray-100 focus:bg-white focus:border-blue-300 focus:ring-blue-100"
                 >
                   {users.map(u => <option key={u.username} value={u.username}>{u.fullname}</option>)}
                 </select>
               </td>
             </tr>
-            <tr className="align-middle border-t-">
-              <td className=""></td>
-              <td className="pt-3 pb-1">
+            <tr className="border-t">
+              <td className="h-10 py-2 w-1/5">&nbsp;</td>
+              <td className="py-3">
                 <div className="inline-flex space-x-3">
                   <button
                     className="rounded-sm bg-green-500 hover:bg-green-600 active:bg-green-700 px-5 h-8 text-white font-semibold"
@@ -177,13 +141,52 @@ export default function ProjectInfo({ user, project, mutate }) {
                 </div>
               </td>
             </tr>
+        </tbody>
+        )}
+      </table>
+
+      {!editing && (
+        <table className="w-full border-b leading-relaxed">
+          <tbody>
+            <tr className="border-t">
+              <td className="h-10 py-2 w-1/5">ID proyek:</td>
+              <td className="h-10 p-2 text-gray-400">{project._id}</td>
+            </tr>
+            <tr className="border-t">
+              <td className="h-10 py-2 w-1/5">Judul:</td>
+              <td className="font-bold h-10 p-2">{project.title}</td>
+            </tr>
+            <tr className="border-t">
+              <td className="py-2 w-1/5">Deskripsi:</td>
+              <td className="font--medium p-2">{project.description}</td>
+            </tr>
+            <tr className="border-t">
+              <td className="h-10 py-2 w-1/5">Tanggal&nbsp;kontrak:</td>
+              <td className="font--semibold h-10 p-2">{project.contractDate}</td>
+            </tr>
+            <tr className="border-t">
+              <td className="h-12 py-2 w-1/5">Admin:</td>
+              {!user.licenseOwner && <td className="font-semibold h-12 p-2">{project.admin.fullname}</td>}
+              {user.licenseOwner && (
+                <td className="h-10">
+                  <select
+                    value={admin}
+                    disabled={!user.licenseOwner}
+                    onChange={e => setAdmin(e.target.value)}
+                    className="text-sm w--full h-8 leading-tight px-2 pr-9 py-1 rounded bg-gray-100 border-gray-100 focus:bg-white focus:border-blue-300 focus:ring-blue-100"
+                  >
+                    {users.map(u => <option key={u.username} value={u.username}>{u.fullname}</option>)}
+                  </select>
+                  {admin != project.admin.username && <button
+                    className="rounded ml-3 h-8 px-5 font-semibold bg-green-500 hover:bg-green-600 active:bg-green-700 text-white"
+                    onClick={changeAdmin}
+                  >Save</button>}
+                </td>
+              )}
+            </tr>
           </tbody>
         </table>
-        </div>
       )}
-
-
-
 
 
     </div>

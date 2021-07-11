@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 import { PencilAltIcon, TrashIcon, XCircleIcon, XIcon } from "@heroicons/react/outline";
@@ -20,14 +20,43 @@ export default function Personae({ user, project }) {
     'fullname, username, email, gender, birth, phone, group, nip, position, currentLevel, targetLevel'
   );
 
+  const [persons, setPersons] = useState([]);
   const [viewStack, setViewStack] = useState([]);
   const [submitting, setSubmitting] = useState(false);
   const [modal, setModal] = useState(null);
   const [toDelete, setToDelete] = useState(null);
+  const [filter, setFilter] = useState('');
+
+  useEffect(() => {
+    if (personae) {
+      const copy = [];
+      let n = 1;
+      personae.forEach(p => {
+        copy.push({...p, order: n });
+        n++;
+      })
+
+      setPersons(copy);
+    }
+  }, [personae])
 
   if (isLoading) return null;
 
   if (personae.length == 0) return <NoPersonae project={project} isAdmin={isAdmin} />
+
+  // Error: Rendered more hooks than during the previous render.
+  // useEffect(() => {
+  //   if (personae) {
+  //     const copy = [];
+  //     let n = 1;
+  //     personae.forEach(p => {
+  //       copy.push({...p, order: n });
+  //       n++;
+  //     })
+
+  //     setPersons(copy);
+  //   }
+  // }, [personae])
 
   function showRow(e, id) {
     setViewStack(vs => ([...vs, id]));
@@ -48,21 +77,32 @@ export default function Personae({ user, project }) {
     }
   }
 
+
+
   return (
     <div className="">
-      <div className="flex items-center space-x-4 py-3 mb-4">
-        <p className="flex-grow font-bold">
-          Daftar peserta - {personae.length} orang
-        </p>
+      <div className="flex items-center space-x-4 mb-4">
+        <div className="relative flex-grow flex items-center">
+          <input
+            type="text"
+            className={`text-sm w-full h-8 leading-tight pl-16 pr-3 rounded bg-gray--50
+            border-gray-300 focus:bg-white focus:border-blue-300 focus:ring-blue-100`}
+            onChange={e => setFilter(e.target.value.toLowerCase())}
+          />
+          <div className="absolute top-0 left-0 h-8 py-px text-xs text-gray-500 leading-none">
+            <span className="flex items-center h-8 px-2 pb-px border-r">Search:</span>
+          </div>
+        </div>
         <div className="flex space-x-3 text-xs">
           {/* <Link href={`#`}>
             <a className="inline-flex items-center h-7 rounded-sm border px-3 py-1- text-blue-500">Add</a>
           </Link> */}
-          <Link href={`/projects/${project._id}/import-csv`}>
+          {isAdmin(user, project) && <Link href={`/projects/${project._id}/import-csv`}>
             <a className="inline-flex items-center h-7 rounded-sm border px-3 py-1- text-blue-500">Import CSV</a>
-          </Link>
+          </Link>}
         </div>
       </div>
+
 
       <table className="w-full">
         <tbody className="text-xs text-gray-500">
@@ -71,23 +111,24 @@ export default function Personae({ user, project }) {
             <td className="px-2 pb-2">Nama</td>
             {/* <td className="px-2 pb-2">Grup</td> */}
             <td className="px-2 pb-2">NIP / ID</td>
-            <td className="px-2 pb-2">Jabatan</td>
-            <td className="hidden md:table-cell px-2 pb-2">Level Sekarang</td>
-            <td className="hidden md:table-cell px-2 pb-2">Level Target</td>
+            {/* <td className="hidden md:table-cell px-2 pb-2">Jabatan</td> */}
+            {/* <td className="hidden md:table-cell px-2 pb-2">Level Sekarang</td> */}
+            {/* <td className="hidden md:table-cell px-2 pb-2">Level Target</td> */}
             <td className="px-2 pb-2">&nbsp;</td>
           </tr>
         </tbody>
-      {personae.map((p, index) => (
+
+        {persons.filter(person => person.fullname.toLowerCase().includes(filter)).map((p, index) => (
         <tbody key={p._id}>
           {!viewStack.includes(p._id) && (
             <tr className="border-b hover:bg-gray-50">
-              <td onClick={e => showRow(e, p._id)} className="w-10 p-2 text-center">{index +1}</td>
+              <td onClick={e => showRow(e, p._id)} className="w-10 p-2 text-center">{p.order}</td>
               <td onClick={e => showRow(e, p._id)} className="p-2 whitespace-nowrap cursor-pointer">{p.fullname}</td>
               {/* <td width="30" onClick={e => showRow(e, p._id)} className="text-xs p-2 whitespace-nowrap cursor-pointer">{p.group || <span className="text-gray-400">...</span>}</td> */}
-              <td width="" onClick={e => showRow(e, p._id)} className="text-xs p-2 whitespace-nowrap cursor-pointer">{p.nip || <span className="text-gray-400">-</span>}</td>
-              <td width="" onClick={e => showRow(e, p._id)} className="text-xs p-2 whitespace-nowrap cursor-pointer">{p.position || <span className="text-gray-400">-</span>}</td>
-              <td width="" onClick={e => showRow(e, p._id)} className="text-xs p-2 whitespace-nowrap cursor-pointer hidden md:table-cell">{p.currentLevel || <span className="text-gray-400">-</span>}</td>
-              <td width="" onClick={e => showRow(e, p._id)} className="text-xs p-2 whitespace-nowrap cursor-pointer hidden md:table-cell">{p.targetLevel || <span className="text-gray-400">-</span>}</td>
+              <td width="" onClick={e => showRow(e, p._id)} className="text-xs p-2 whitespace-nowrap cursor-pointer">{p.nip || <div className="text-centertext-gray-400">-</div>}</td>
+              {/* <td width="" onClick={e => showRow(e, p._id)} className="text-xs p-2 whitespace-nowrap cursor-pointer hidden md:table-cell ">{p.position || <span className="text-gray-400">-</span>}</td> */}
+              {/* <td width="" onClick={e => showRow(e, p._id)} className="text-xs p-2 whitespace-nowrap cursor-pointer hidden md:table-cell">{p.currentLevel || <span className="text-gray-400">-</span>}</td> */}
+              {/* <td width="" onClick={e => showRow(e, p._id)} className="text-xs p-2 whitespace-nowrap cursor-pointer hidden md:table-cell">{p.targetLevel || <span className="text-gray-400">-</span>}</td> */}
               <td className="w-10 px-2 py-0">
                 <div className="flex items-center h-6 pl-2 pr-1 border-l">
                     <button
@@ -107,11 +148,11 @@ export default function Personae({ user, project }) {
               onClick={e => hideRow(e, p._id)}
             >
               <td className="w-10 p-2 text-center">{index +1}</td>
-              <td colSpan="6" className="p-2 whitespace-nowrap">{p.fullname}</td>
+              <td colSpan="3" className="p-2 whitespace-nowrap">{p.fullname}</td>
             </tr>
             <tr className="border-b bg-gray-50 bg-opacity-50">
               <td className="w-10 p-2 text-center">&nbsp;</td>
-              <td colSpan="6" className="px-2 py-0">
+              <td colSpan="3" className="px-2 py-0">
                 <PersonDetail
                   person={p}
                   mutate={mutate}

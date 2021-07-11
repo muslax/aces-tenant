@@ -57,7 +57,7 @@ const Dashboard = ({ user }) => {
       callbak={() => setForm(false)}
     />}
 
-    <pre>{JSON.stringify(projects, null, 2)}</pre>
+    {/* <pre>{JSON.stringify(projects, null, 2)}</pre> */}
   </>;
 }
 

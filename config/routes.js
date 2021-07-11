@@ -24,7 +24,8 @@ export const APIROUTES = {
 
   GET: {
     LICENSE:              GET_PREFIX + API.GET.LICENSE,
-    USERS:                GET_PREFIX + API.GET_USERS,
+    USERS:                GET_PREFIX + API.GET.USERS,
+    CLIENTS:              GET_PREFIX + API.GET.CLIENTS,
     PROJECT:              GET_PREFIX + API.GET.PROJECT,
     PROJECTS:             GET_PREFIX + API.GET.PROJECTS,
     BATCH:                GET_PREFIX + API.GET.BATCH,

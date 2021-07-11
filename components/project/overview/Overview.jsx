@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/outline';
 
+import useModules from 'hooks/useModules';
 import { APIROUTES } from 'config/routes';
 import { generatePOSTData } from 'lib/utils';
 import fetchJson from 'lib/fetchJson';
@@ -9,8 +9,10 @@ import { getCurrentBatch } from 'lib/utils';
 import ProjectInfo from "./ProjectInfo";
 import ActiveBatch from './ActiveBatch';
 import BatchTable from './BatchTable';
+import Subheading from './Subheading';
 
 export default function Overview({ user, project, mutate }) {
+  const { modules, isLoading } = useModules();
   const [currentBatch, setCurrentBatch] = useState(getCurrentBatch(project));
   const [showInfo, setShowInfo] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -18,14 +20,14 @@ export default function Overview({ user, project, mutate }) {
   const [date, setDate] = useState('');
 
   useEffect(() => {
-    setCurrentBatch(getCurrentBatch(project));
+    // setCurrentBatch(getCurrentBatch(project));
 
     return () => {};
   }, [project])
 
   useEffect(() => {
-    const key = project._id;
-    window.localStorage.setItem(key, JSON.stringify(currentBatch));
+    // const key = project._id;
+    // window.localStorage.setItem(key, JSON.stringify(currentBatch));
   }, [currentBatch])
 
   async function saveNewBatch(e) {
@@ -48,30 +50,37 @@ export default function Overview({ user, project, mutate }) {
   }
 
   return <>
-    <div className="mb-9">
+    <div className="flex items-center text-xs font-medium mb-7">
       {!showInfo && <>
-        <button
-          className="flex items-center text-blue-500"
-          onClick={e => setShowInfo(!showInfo)}
-        >
-          <span>Show Info</span>
-          <ChevronRightIcon className="w-5 h-5 text-gray-600s" />
-        </button>
+        <span className="flex items-center h-7 rounded-l bg-gray-400 text-white px-3 cursor-default">Batch Info</span>
+        <button className="flex items-center h-7 rounded-r bg-gray-200 bg-opacity-75 hover:bg-opacity-100 font-medium px-3" onClick={e => setShowInfo(true)}>Project Info</button>
       </>}
       {showInfo && <>
-        <button
-          className="flex items-center text-blue-500 space-x-1"
-          onClick={e => setShowInfo(!showInfo)}
-        >
-          <span>Hide Info</span>
-          <ChevronDownIcon className="w-5 h-5 text-gray-600s" />
-        </button>
+        <button className="flex items-center h-7 rounded-l bg-gray-200 bg-opacity-75 hover:bg-opacity-100 font-medium px-3" onClick={e => setShowInfo(false)}>Batch Info</button>
+        <span className="flex items-center h-7 rounded-r bg-gray-400 text-white px-3 cursor-default">Project Info</span>
       </>}
     </div>
 
-    {showInfo && <ProjectInfo user={user} project={project} mutate={mutate} />}
+    {!showInfo && (
+      <div className="mb-10">
+        <Subheading title="Active Batch" />
+        <ActiveBatch
+          batch={currentBatch}
+          modules={modules}
+          isLoading={isLoading}
+        />
+      </div>
+    )}
 
-    <ActiveBatch batch={currentBatch} />
+    {showInfo && (
+      <div className="mb-10">
+        <ProjectInfo
+          user={user}
+          project={project}
+          mutate={mutate}
+        />
+      </div>
+    )}
 
     <BatchTable
       project={project}
@@ -82,7 +91,7 @@ export default function Overview({ user, project, mutate }) {
     />
 
     <div className="my-10">
-      {!showForm && isAdmin() && <div className="text-center">
+      {!showInfo && !showForm && isAdmin() && <div className="text-center">
         <button
           className="rounded-sm border h-8 px-5 font-medium border-gray-300 hover:border-gray-400 active:border-gray-500 text-gray-600 active:text-gray-800"
           onClick={e => setShowForm(true)}
@@ -135,6 +144,8 @@ export default function Overview({ user, project, mutate }) {
         </div>
       )}
     </div>
+
+    {/* <pre>{JSON.stringify(currentBatch, null, 2)}</pre> */}
 
   </>;
 }

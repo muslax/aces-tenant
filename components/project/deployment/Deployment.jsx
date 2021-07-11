@@ -197,14 +197,14 @@ export default function Deployment({ user, project, mutate }) {
 
   return (
     <div className="">
-      <div className="flex items-center space-x-4 py-3">
+      {/* <div className="flex items-center space-x-4 py-3">
         <p className="flex-grow text-bases font--bold">
           Point-point deployment {currentBatch.title}
         </p>
         <div className="text-xs">
             <a className="inline-flex items-center h-7 rounded-sm border px-3 py-1- text-blue-500">Button</a>
         </div>
-      </div>
+      </div> */}
 
       <table className="w-full">
         <tbody>

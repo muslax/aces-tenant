@@ -41,9 +41,9 @@ export default function Modules({ user, project }) {
           Daftar Modul ACES untuk Batch {currentBatch.title}
         </p>
         <div className="text-xs">
-          <Link href={`/projects/${project._id}/setup-modules`}>
+          {isAdmin(user, project) && <Link href={`/projects/${project._id}/setup-modules`}>
             <a className="inline-flex items-center h-7 rounded-sm border px-3 py-1- text-blue-500">Add / Remove</a>
-          </Link>
+          </Link>}
         </div>
       </div>
       {/* <h2 className="text-lg font-bold">Modules</h2> */}

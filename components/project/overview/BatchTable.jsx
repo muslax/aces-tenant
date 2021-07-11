@@ -4,6 +4,7 @@ import { CogIcon } from '@heroicons/react/outline';
 import fetchJson from 'lib/fetchJson';
 import { APIROUTES } from 'config/routes';
 import { generatePOSTData, getCurrentBatch } from 'lib/utils';
+import Subheading from './Subheading';
 
 export default function BatchTable({ project, currentBatch, callback, editable, mutate }) {
   // const pid = batches[0].pid;
@@ -57,8 +58,8 @@ export default function BatchTable({ project, currentBatch, callback, editable, 
   }
 
   return (
-    <div className="my-4">
-      <h3 className="text-base font-bold mb-2">Project Batches {editable ? 'EDIT' : 'LOCKED'}</h3>
+    <div className="">
+      <Subheading title="Select / Edit Batch" />
 
       <table className="w-full leading-relaxed border-b mb-10">
         {_batches.map(b => (
@@ -71,20 +72,26 @@ export default function BatchTable({ project, currentBatch, callback, editable, 
                   : "w-5 h-5 text-gray-400"
                 } />
               </td>
-              <td width="25%" className="px-2 h-12 font-semibold">{b.title}</td>
-              <td width="25%" className="px-2 h-12">{b.date1 ? b.date1 : 'not set'}</td>
+              <td width="30%" className="px-2 h-12 font-semibold">{b.title}</td>
+              <td width="" className="hidden sm:table-cell px-2 h-12">{b.date1 ? b.date1 : 'not set'}</td>
+              <td className="hidden md:table-cell px-2 h-12">
+                <div className="flex items-center space-x-2">
+                  <UsersIcon className="w-4 h-4 text-gray-300"/>
+                  <span className="font-medium w-10">{b.personae}</span>
+                </div>
+              </td>
+              <td className="hidden md:table-cell px-2 h-12">
+                <div className="flex items-center space-x-2">
+                  <BeakerIcon className="w-4 h-4 text-gray-300"/>
+                  <span className="font-medium w-10">{b.modules.length}</span>
+                </div>
+              </td>
               <td className="px-2 h-12">
                 <div className="flex items-center space-x-3">
-                  <div className="flex flex-row items-center space-x-2">
-                    <UsersIcon className={`w-4 h-4 ${b.personae > 0 ? '' : 'text-gray-300'}`}/>
-                    <span className="font-medium w-10">{b.personae}</span>
-                    <BeakerIcon className="w-4 h-4 text-gray-300"/>
-                    <span className="font-medium w-10">{b.modules.length}</span>
-                  </div>
                   <div className="flex-grow flex space-x-2 pl-4">
                     <div className="flex-grow">
                       {!vStack && editable && <button
-                        className=""
+                        className="hidden md:inline-flex"
                         value={b._id}
                         onClick={e => {
                           setVStack(b);
