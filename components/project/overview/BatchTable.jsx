@@ -4,7 +4,7 @@ import { CogIcon } from '@heroicons/react/outline';
 import fetchJson from 'lib/fetchJson';
 import { APIROUTES } from 'config/routes';
 import { generatePOSTData, getCurrentBatch } from 'lib/utils';
-import Subheading from './Subheading';
+import Subhead from './Subhead';
 
 export default function BatchTable({ project, currentBatch, callback, editable, mutate }) {
   // const pid = batches[0].pid;
@@ -59,7 +59,11 @@ export default function BatchTable({ project, currentBatch, callback, editable, 
 
   return (
     <div className="">
-      <Subheading title="Select / Edit Batch" />
+      <div className="pb-2">
+        <Subhead title="Select / Edit Batch">
+          <button className="button-trigger px-4">New Batch</button>
+        </Subhead>
+      </div>
 
       <table className="w-full leading-relaxed border-b mb-10">
         {_batches.map(b => (
@@ -91,7 +95,7 @@ export default function BatchTable({ project, currentBatch, callback, editable, 
                   <div className="flex-grow flex space-x-2 pl-4">
                     <div className="flex-grow">
                       {!vStack && editable && <button
-                        className="hidden md:inline-flex"
+                        className="hidden sm:inline-flex"
                         value={b._id}
                         onClick={e => {
                           setVStack(b);
@@ -130,7 +134,7 @@ export default function BatchTable({ project, currentBatch, callback, editable, 
                   : "w-5 h-5 text-gray-300"
                 } />
               </td>
-              <td width="25%" className="px-2 h-12 font-semibold">
+              <td width="" className="px-2 h-12 font-semibold">
                 <input
                   type="text" className="input-project tight w-full"
                   value={batchCopy.title}
@@ -138,7 +142,7 @@ export default function BatchTable({ project, currentBatch, callback, editable, 
                   onChange={e => setBatchCopy(p => ({...p, ['title']: e.target.value }))}
                 />
               </td>
-              <td width="25%" className="px-2 h-12">
+              <td width="" className="px-2 h-12">
                 <input
                   type="date"
                   value={batchCopy.date1}
@@ -147,7 +151,7 @@ export default function BatchTable({ project, currentBatch, callback, editable, 
                   onChange={e => setBatchCopy(p => ({...p, ['date1']: e.target.value }))}
                 />
               </td>
-              <td className="px-2 h-12">
+              <td colSpan="3" className="px-2 h-12">
                 <div className="flex items-center space-x-2">
                   <div className="flex-grow flex flex-row">
                     <button

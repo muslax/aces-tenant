@@ -14,6 +14,7 @@ import PostModal from "components/PostModal";
 import PersistedGroups from "./PersistedGroups";
 import RuntimeGroups from "./RuntimeGroups";
 import Schedule from "./Schedule";
+import Subhead from "../overview/Subhead";
 
 const utc = require('dayjs/plugin/utc');
 const timezone = require('dayjs/plugin/timezone');
@@ -197,24 +198,25 @@ export default function Deployment({ user, project, mutate }) {
 
   return (
     <div className="">
-      {/* <div className="flex items-center space-x-4 py-3">
-        <p className="flex-grow text-bases font--bold">
-          Point-point deployment {currentBatch.title}
-        </p>
-        <div className="text-xs">
-            <a className="inline-flex items-center h-7 rounded-sm border px-3 py-1- text-blue-500">Button</a>
-        </div>
-      </div> */}
+      <div className="border-b pb-2 mb-2">
+        <Subhead title="Settings"></Subhead>
+      </div>
 
       <table className="w-full">
         <tbody>
           <tr><td width="17%"></td><td></td></tr>
 
-          <tr className="">
-            <td colSpan="2" className="pt-5 pb-2 font-bold">
-              <h4 className="border-b border-gray-300 pb-2">Test online mandiri</h4>
+          <tr className="border--t">
+            <td className="py-2">
+            Tanggal:
+            </td>
+            <td className="p-0 pb-2">
+              <input type="text" readOnly value={currentBatch.date1}
+                className="text-sm w-32 h-8 leading-tight px-2 py-1 rounded bg-gray-100 border-gray-100 focus:bg-white focus:border-blue-300 focus:ring-blue-100"
+              />
             </td>
           </tr>
+
           <tr className="border--t">
             <td className="py-2">Token batch:</td>
             <td className="p-0 pb-1">
@@ -223,6 +225,7 @@ export default function Deployment({ user, project, mutate }) {
               />
             </td>
           </tr>
+
           <tr className="border--t">
             <td className="py-2">Urutan tes:</td>
             <td className="p-0 pb--1 h-10">
@@ -263,75 +266,41 @@ export default function Deployment({ user, project, mutate }) {
           </tr>
 
 
-          <tr className="border-">
+          {/* <tr className="border-">
             <td colSpan="2" className="pt-7 pb-2 font-bold">
               <h4 className="border-b border-gray-300 pb-2">Diskusi & wawancara</h4>
             </td>
-          </tr>
-          <tr className="border--t">
-            <td className="py-2">
-            Tanggal:
-            </td>
-            <td className="p-0">
-              <input type="text" readOnly value={currentBatch.date1}
-                className="text-sm h-8 leading-tight px-2 py-1 rounded bg-gray-100 border-gray-100 focus:bg-white focus:border-blue-300 focus:ring-blue-100"
-              />
-            </td>
-          </tr>
-
-          {/* <tr className="border-">
-            <td colSpan="2" className="pt-7 pb-2 font-bold">
-              <h4 className="border-b border-gray-300 pb-2">Pembagian slot waktu</h4>
-            </td>
-          </tr>
-          <tr className="border--t">
-            <td className="py-2">Pilihan:</td>
-            <td className="p-0">
-              <input type="text" readOnly
-                className="text-sm h-8 leading-tight px-2 py-1 rounded bg-gray-100 border-gray-100 focus:bg-white focus:border-blue-300 focus:ring-blue-100"
-              />
-            </td>
-          </tr>
-          <tr className="border--t">
-            <td className="py-2">&nbsp;</td>
-            <td className="p-0">
-              <div className="flex space-x-1">
-                <input type="text" value="08:00" readOnly
-                  className="text-sm w-20 h-8 leading-tight px-2 py-1 rounded bg-gray-100 border-gray-100 focus:bg-white focus:border-blue-300 focus:ring-blue-100"
-                />
-                <input type="text" value="10:00" readOnly
-                  className="text-sm w-20 h-8 leading-tight px-2 py-1 rounded bg-gray-100 border-gray-100 focus:bg-white focus:border-blue-300 focus:ring-blue-100"
-                />
-                <input type="text" value="13:00" readOnly
-                  className="text-sm w-20 h-8 leading-tight px-2 py-1 rounded bg-gray-100 border-gray-100 focus:bg-white focus:border-blue-300 focus:ring-blue-100"
-                />
-                <input type="text" value="15:00" readOnly
-                  className="text-sm w-20 h-8 leading-tight px-2 py-1 rounded bg-gray-100 border-gray-100 focus:bg-white focus:border-blue-300 focus:ring-blue-100"
-                />
-              </div>
-            </td>
           </tr> */}
+
         </tbody>
 
 
       </table>
 
       {groups && groups.length > 0 && (
-        <div>
-          <h4 className="pt-7 pb-2 font-bold">Saved schedule</h4>
+        <div className="">
+          <div className="border--b pb-2 mt-7">
+            <Subhead title="Saved schedule"></Subhead>
+          </div>
           <Schedule groups={groups} />
 
-          <h4 className="pt-7 pb-2 font-bold">Saved groups</h4>
+          <div className="border--b pb-2 mt-7">
+            <Subhead title="Saved groups"></Subhead>
+          </div>
           <PersistedGroups groups={groups} />
         </div>
       )}
 
       {!groups || groups.length == 0 && (
-        <div>
-          <h4 className="pt-7 pb-2 font-bold">Tentative schedule</h4>
+        <div className="">
+          <div className="border--b pb-2 mt-7">
+            <Subhead title="Tentative schedule"></Subhead>
+          </div>
           <Schedule groups={schedules} tentative={true} />
 
-          <h4 className="pt-7 pb-2 font-bold">Tentative groups</h4>
+          <div className="border--b pb-2 mt-7">
+            <Subhead title="Tentative groups"></Subhead>
+          </div>
           <RuntimeGroups groups={schedules} />
         </div>
       )}

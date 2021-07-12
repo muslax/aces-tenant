@@ -10,6 +10,7 @@ import ProjectInfo from "./ProjectInfo";
 import ActiveBatch from './ActiveBatch';
 import BatchTable from './BatchTable';
 import Subheading from './Subheading';
+import Subhead from './Subhead';
 
 export default function Overview({ user, project, mutate }) {
   const { modules, isLoading } = useModules();
@@ -50,7 +51,7 @@ export default function Overview({ user, project, mutate }) {
   }
 
   return <>
-    <div className="flex items-center text-xs font-medium mb-7">
+    <div className="flex items-center text-xs font-medium mb-4">
       {!showInfo && <>
         <span className="flex items-center h-7 rounded-l bg-gray-400 text-white px-3 cursor-default">Batch Info</span>
         <button className="flex items-center h-7 rounded-r bg-gray-200 bg-opacity-75 hover:bg-opacity-100 font-medium px-3" onClick={e => setShowInfo(true)}>Project Info</button>
@@ -63,7 +64,29 @@ export default function Overview({ user, project, mutate }) {
 
     {!showInfo && (
       <div className="mb-10">
-        <Subheading title="Active Batch" />
+        <div className="pb-2">
+          <Subhead title="Active Batch">
+            <select
+              className="select-trigger leading-none pr-10"
+              value={currentBatch._id}
+              onChange={e => {
+                const key = project._id;
+                const batch = project.batches.filter(b => b._id == e.target.value)[0]
+                console.log(batch?.title)
+                window.localStorage.setItem(key, JSON.stringify(batch));
+                setCurrentBatch(getCurrentBatch(project))
+              }}
+            >
+              {project.batches.sort((a, b) => {
+                if (a._id > b._id) return -1;
+                else if (a._id < b._id) return 1;
+                return 0;
+              }).map(b =>(
+                <option key={b._id} value={b._id}>{b.title}</option>
+              ))}
+            </select>
+          </Subhead>
+        </div>
         <ActiveBatch
           batch={currentBatch}
           modules={modules}
@@ -145,7 +168,7 @@ export default function Overview({ user, project, mutate }) {
       )}
     </div>
 
-    {/* <pre>{JSON.stringify(currentBatch, null, 2)}</pre> */}
+    {/* <pre>{JSON.stringify(project, null, 2)}</pre> */}
 
   </>;
 }

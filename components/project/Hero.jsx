@@ -1,4 +1,4 @@
-import { FolderIcon, IdentificationIcon, ShieldCheckIcon, StatusOnlineIcon } from '@heroicons/react/solid';
+import { EyeIcon, FolderIcon, IdentificationIcon, ShieldCheckIcon, StatusOnlineIcon } from '@heroicons/react/solid';
 import { CalendarIcon } from '@heroicons/react/outline';
 import { getCurrentBatch } from 'lib/utils';
 
@@ -6,7 +6,7 @@ export default function Hero({ project, title, isIndex = false }) {
   const currentBatch = getCurrentBatch(project);
 
   if (isIndex) return (
-    <div className="py-7 border--b">
+    <div className="pt-7 pb-5 border--b">
       <h2 className="text-2xl text-green-600 font-medium mt-1 mb-2 truncate">{project.title}</h2>
 
       <div className="flex flex-col space-y-px font-medium">
@@ -23,7 +23,6 @@ export default function Hero({ project, title, isIndex = false }) {
         <div className="flex items-center space-x-3">
           <ShieldCheckIcon className="w-5 h-5 text-gray-500" />
           <div className="">Admin: {project.admin.fullname}</div>
-          {/* <span>{currentBatch.title}</span> */}
         </div>
       </div>
     </div>

@@ -6,22 +6,37 @@ export default function ActiveBatch({ batch, modules }) {
   const [sims, setSims] = useState([]);
 
   function getPersons() {
-    if (batch.personae == 0) return <span className="text-red-500">Belum ada daftar</span>;
+    if (batch.personae == 0) return <span className="text-red-500">Data belum tersedia</span>;
     return <>
       <span className="font-bold">{batch.personae}</span>
       <span className="text-gray-500 ml-2">orang</span>
     </>;
   }
 
-  function getSims() {
+  function getModules() {
     if (!hasModules) return <span className="text-red-500">Modul belum terinstal</span>;
-    else {
-      if (tests.length == 0) return <span className="text-gray-500">Tidak ada</span>;
-      return <>
-        <span className="font-bold">{tests.length}</span>
-        <span className="text-gray-500 ml-2">modul</span>
-      </>;
-    }
+    const mtests = <>
+      <span className="">{tests.length}</span>
+      <span className="ml-2">tes mandiri </span>
+    </>;
+    const mguided = <>
+      <span className="">{sims.length}</span>
+      <span className="ml-2">temu muka</span>
+    </>;
+
+    if (tests.length > 0 && sims.length == 0) return mtests;
+    else if (sims.length > 0 && tests.length == 0) return mguided;
+    return <div className="text-gray--400 font-bold">
+      {mtests} <span className="text-gray-400 font-normal mx-2">&ndash;</span> {mguided}
+    </div>;
+  }
+
+  function getGroups() {
+    if (batch.groups == 0) return <span className="text-red-500">Belum terkonfirmasi</span>;
+    return <>
+      <span className="font-bold">{batch.groups}</span>
+      <span className="text-gray-500 ml-2">grup</span>
+    </>;
   }
 
   function getGuided() {
@@ -71,17 +86,19 @@ export default function ActiveBatch({ batch, modules }) {
           <tbody>
             <Datarow title="Nama batch">
               <span className="font-bold">{batch.title}</span>
-            </Datarow>
-            <Datarow title="Tanggal">
+              <span className="text-gray-300 font-bold mx-2">/</span>
               <span className="font-bold">{batch.date1}</span>
             </Datarow>
             <Datarow title="Status">
               <span className="font--medium">&mdash;</span>
             </Datarow>
+            <Datarow title="Modul&nbsp;ACES">
+              <span className="font--medium">{getModules()}</span>
+            </Datarow>
             <Datarow title="Jumlah peserta">
               <span className="font--medium">{getPersons()}</span>
             </Datarow>
-            <Datarow title="Test mandiri">
+            {/* <Datarow title="Test mandiri">
               <span className="font--medium">{getSims()}</span>
             </Datarow>
             <Datarow title="Test terpandu">
@@ -89,11 +106,9 @@ export default function ActiveBatch({ batch, modules }) {
             </Datarow>
             <Datarow title="Token online">
               <span className="text-gray-400">not set</span>
-            </Datarow>
+            </Datarow> */}
             <Datarow title="Grouping & skedul">
-              <span className="">6 grup</span>
-              <span className="text-gray-400 ml-2">(tentative)</span>
-              <span className="text-blue-500 font-normal ml-2">Lihat halaman Grouping & Schedules</span>
+              {getGroups()}
             </Datarow>
           </tbody>
         </table>

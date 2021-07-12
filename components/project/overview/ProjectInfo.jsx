@@ -6,7 +6,7 @@ import { API } from "config/api";
 import fetchJson from "lib/fetchJson";
 import { APIROUTES } from "config/routes";
 import { generatePOSTData } from "lib/utils";
-import Subheading from "./Subheading";
+import Subhead from "./Subhead";
 
 export default function ProjectInfo({ user, project, mutate }) {
   const { users, isError, isLoading } = useUsers();
@@ -56,24 +56,26 @@ export default function ProjectInfo({ user, project, mutate }) {
 
   return (
     <div className="mb-10">
-      <Subheading title="Project Info">
-        {!editing && canEdit && (
-          <button
-            className="px-1 text-blue-500"
-            onClick={e => {
-              setAdmin(project.admin.username);
-              setEditing(true);
-            }}
-          >Edit Info</button>
-        )}
-      </Subheading>
+      <div className="pb-2">
+        <Subhead title="Project Info">
+          {!editing && canEdit && (
+            <button
+              className="button-trigger px-4"
+              onClick={e => {
+                setAdmin(project.admin.username);
+                setEditing(true);
+              }}
+            >Edit Info</button>
+          )}
+        </Subhead>
+      </div>
 
       <table className="w-full border--b leading-relaxed">
         {editing && (
           <tbody>
             <tr className="border-t">
               <td className="h-10 py-2 w-1/5">ID proyek:</td>
-              <td className="h-10 p-2 text-gray-400">{project._id}</td>
+              <td className="h-10 p-2 text-gray-400">{project._id} {user.licenseOwner ? 'OWNER' : 'USER'}</td>
             </tr>
             <tr className="border-t">
               <td className="h-10 py-2 w-1/5">Judul:</td>

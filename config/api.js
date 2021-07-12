@@ -36,6 +36,7 @@ export const API = {
     SAVE_MODULES:           'save-modules',
 
     SAVE_CSV_DATA:          'save-csv-data',
+    ADD_NAMES:              'add-names',
     SAVE_DEPLOYMENT:        'save-deployment',
     UPDATE_PERSONA:         'update-persona',
     DELETE_PERSONA:         'delete-persona',

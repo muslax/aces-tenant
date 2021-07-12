@@ -8,11 +8,22 @@ export default withSession(async (req, res) => {
     const { username, password } = req.body;
     const { dba } = await connect();
     // DB.USERVIEW
-    const rs = await dba.collection("VLogin").findOne({
-      username: username,
-      disabled: false,
-      deleted: false,
-    });
+    // const rs = await dba.collection("VLogin").findOne({
+    //   username: username,
+    //   disabled: false,
+    //   deleted: false,
+    // });
+
+    const cs = await dba.collection("VLogin").aggregate([
+      { $match: { _id: "60e390b87789b2a54ebc2ff5" }},
+      { $limit: 1 },
+      { $lookup: {
+        from: 'tenants', localField:'lid', foreignField:'lid', as:'tenant'
+      }},
+      { $unwind: "$tenant"}
+    ])
+
+    const rs = await cs.next();
 
     if (!rs) {
       return res.status(404).json({ message: "[NOPE] Username/password salah." });
@@ -29,7 +40,7 @@ export default withSession(async (req, res) => {
       username: rs.username,
       fullname: rs.fullname,
       email: rs.email,
-      licenseOwner: rs._id == rs.license.oid,
+      licenseOwner: rs.lid == rs.tenant.lid,
       license: {
         _id: rs.license._id,
         type: rs.license.type,

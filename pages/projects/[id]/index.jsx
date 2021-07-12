@@ -29,6 +29,11 @@ const ProjectPage = () => {
 
       <Hero project={project} isIndex={true} />
 
+      {/* <div className="py-7 border--b">
+        <h2 className="text-3xl text-green--600 font--semibold truncate">{project.title}</h2>
+        <div className="text-base text-gray-500 font-medium">{project.client.name}, {project.client.city}</div>
+      </div> */}
+
       <Overview user={user} project={project} mutate={mutate} />
 
       {/* <pre>PROJECT {JSON.stringify(project, null, 2)}</pre> */}
