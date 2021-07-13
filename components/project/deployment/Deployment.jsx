@@ -185,7 +185,7 @@ export default function Deployment({ user, project, mutate }) {
     }
   }, [timing])
 
-  if (isError || pError || isLoading || pLoading) return "ERROR";
+  if (isError || pError || isLoading || pLoading) return <></>;
 
   async function saveDeployment(e) {
 
@@ -282,7 +282,9 @@ export default function Deployment({ user, project, mutate }) {
           <div className="border--b pb-2 mt-7">
             <Subhead title="Saved schedule"></Subhead>
           </div>
-          <Schedule groups={groups} />
+          <div className="overflow-x-scroll">
+            <Schedule groups={groups} />
+          </div>
 
           <div className="border--b pb-2 mt-7">
             <Subhead title="Saved groups"></Subhead>
@@ -296,7 +298,9 @@ export default function Deployment({ user, project, mutate }) {
           <div className="border--b pb-2 mt-7">
             <Subhead title="Tentative schedule"></Subhead>
           </div>
-          <Schedule groups={schedules} tentative={true} />
+          <div className="overflow-x-scroll">
+            <Schedule groups={schedules} tentative={true} />
+          </div>
 
           <div className="border--b pb-2 mt-7">
             <Subhead title="Tentative groups"></Subhead>
@@ -304,18 +308,6 @@ export default function Deployment({ user, project, mutate }) {
           <RuntimeGroups groups={schedules} />
         </div>
       )}
-
-
-
-
-      {/* <h4 className="pt-7 pb-2 font-bold">Tentative groups</h4> */}
-
-      {/* <RuntimeGroups groups={schedules} /> */}
-
-
-
-
-
 
       <div className="pt-7 font-bold">
         <h4 className="pb-2">Kebutuhan asesor</h4>

@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-import { ROUTES } from "config/routes";
+import { APIROUTES, ROUTES } from "config/routes";
 import useUser from "hooks/useUser";
 import useProject from "hooks/useProject";
 
@@ -9,7 +9,9 @@ import ProjectNotFound from "components/project/ProjectNotFound";
 import ProjectLayout from "components/layout/ProjectLayout";
 import Hero from "components/project/Hero";
 import Overview from "components/project/overview/Overview";
-import useBatches from "hooks/useBatches";
+import Prefetch from "components/Prefetch";
+
+const prefetchFields='fullname,username,email,gender,birth,phone,group,nip,position,currentLevel,targetLevel';
 
 const ProjectPage = () => {
   const { user } = useUser();
@@ -18,8 +20,9 @@ const ProjectPage = () => {
   const { project, isError, isLoading, mutate } = useProject(pid);
 
   if (isLoading) return <div className="my-8 text-center">...</div>;
-  if (isError) return <>ERROR</>;
+  if (isError) return <>-----ERROR-----</>;
   if (user.license._id != project.lid) return <ProjectNotFound />
+
 
   return (
     <div>
@@ -35,6 +38,13 @@ const ProjectPage = () => {
       </div> */}
 
       <Overview user={user} project={project} mutate={mutate} />
+
+      {project.batches.map(({ _id }) => <div key={_id}>
+        <Prefetch uri={`${APIROUTES.GET.BATCH_PERSONAE}&bid=${_id}&fields=${prefetchFields}`} />
+        <Prefetch uri={`${APIROUTES.GET.BATCH_GROUPS}&bid=${_id}`} />
+      </div>)}
+
+      {/* <Prefetch uri={`${APIROUTES.GET.MODULES}`} /> */}
 
       {/* <pre>PROJECT {JSON.stringify(project, null, 2)}</pre> */}
     </div>

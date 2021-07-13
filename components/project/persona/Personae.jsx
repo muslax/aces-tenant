@@ -15,11 +15,13 @@ import { APIROUTES } from "config/routes";
 import FixedOverlay from "components/FixedOverlay";
 import { mutate } from "swr";
 
+const prefetchFields='fullname,username,email,gender,birth,phone,group,nip,position,currentLevel,targetLevel';
+
 export default function Personae({ user, project }) {
   const currentBatch = getCurrentBatch(project);
   const { personae, isError, isLoading, mutate: mutatePersonae } = useBatchPersonae(
     currentBatch._id,
-    'fullname, username, email, gender, birth, phone, group, nip, position, currentLevel, targetLevel'
+    prefetchFields
   );
 
   const [persons, setPersons] = useState([]);

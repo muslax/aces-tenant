@@ -17,7 +17,7 @@ const DeploymentPage = () => {
   const { project, isError, isLoading, mutate } = useProject(pid);
 
   if (isLoading) return <div className="my-8 text-center">...</div>;
-  if (isError) return <>ERROR</>;
+  if (isError) return <>-----ERROR-----</>;
   if (user.license._id != project.lid) return <ProjectNotFound />
 
   return (
