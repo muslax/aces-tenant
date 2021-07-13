@@ -22,8 +22,8 @@ export default function Schedule({ groups, tentative = false }) {
           {g.slot1 == "selftest" && (
             <tr key={g.name} className={`border-b border-${color}-300`}>
               <td className="font-medium px-2 py-2">
-                {g.name}
-                <span className="text-gray-400 ml-2">({g.persons.length}&nbsp;orang)</span>
+                <span className="whitespace-nowrap">{g.name}</span>{` `}
+                <span className="whitespace-nowrap text-gray-400">({g.persons.length} orang)</span>
               </td>
               <td colSpan="2" className={`border-l border-${color}-200 text-center px-2 py-1`}>Waktu pengerjaan tes online</td>
               <td className={`border-l border-${color}-200 px-2 py-1`}>{g.slot3}</td>
@@ -33,8 +33,8 @@ export default function Schedule({ groups, tentative = false }) {
           {g.slot1 != "selftest" && (
             <tr key={g.name} className={`border-b border-${color}-300`}>
               <td className="font-medium px-2 py-2">
-                {g.name}
-                <span className="text-gray-400 ml-2">({g.persons.length}&nbsp;orang)</span>
+                <span className="whitespace-nowrap">{g.name}</span>{` `}
+                <span className="whitespace-nowrap text-gray-400">({g.persons.length} orang)</span>
               </td>
               <td className={`border-l border-${color}-200 px-2 py-1`}>{g.slot1}</td>
               <td className={`border-l border-${color}-200 px-2 py-1`}>{g.slot2}</td>

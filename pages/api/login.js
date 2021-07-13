@@ -15,7 +15,7 @@ export default withSession(async (req, res) => {
     // });
 
     const cs = await dba.collection("VLogin").aggregate([
-      { $match: { _id: "60e390b87789b2a54ebc2ff5" }},
+      { $match: { username: username }},
       { $limit: 1 },
       { $lookup: {
         from: 'tenants', localField:'lid', foreignField:'lid', as:'tenant'
@@ -40,7 +40,7 @@ export default withSession(async (req, res) => {
       username: rs.username,
       fullname: rs.fullname,
       email: rs.email,
-      licenseOwner: rs.lid == rs.tenant.lid,
+      licenseOwner: rs._id == rs.tenant.uid,
       license: {
         _id: rs.license._id,
         type: rs.license.type,
@@ -49,6 +49,8 @@ export default withSession(async (req, res) => {
         logoUrl: rs.license.logoUrl,
       },
     }
+
+    // console.log("USER", user)
 
     req.session.set("user", user);
     await req.session.save();

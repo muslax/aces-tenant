@@ -129,6 +129,7 @@ export default function Personae({ user, project }) {
           </button>
         </div>
         <div className="flex space-x-3 text-xs">
+        {isAdmin(user, project) && <>
           <button
             className="button-trigger px-2"
             onClick={e => {
@@ -138,12 +139,23 @@ export default function Personae({ user, project }) {
               }
             }}
           >Add</button>
-          {isAdmin(user, project) && <Link href={`/projects/${project._id}/import-csv`}>
+          <Link href={`/projects/${project._id}/import-csv`}>
             <a
               disabled={form}
               className="button-trigger px-3"
             >Import CSV</a>
-          </Link>}
+          </Link>
+        </>}
+        {!isAdmin(user, project) && <>
+          <button
+            className="rounded h-8 border border-gray-200 text-gray-400 px-2"
+            disabled
+          >Add</button>
+          <button
+            disabled={form}
+            className="rounded h-8 border border-gray-200 text-gray-400 px-3"
+          >Import CSV</button>
+        </>}
         </div>
       </div>
 

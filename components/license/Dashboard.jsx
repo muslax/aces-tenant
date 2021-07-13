@@ -3,11 +3,12 @@ import Link from 'next/link';
 import { FolderIcon } from '@heroicons/react/solid';
 
 import useProjects from "hooks/useProjects";
-import { ROUTES } from 'config/routes';
+import { APIROUTES, ROUTES } from 'config/routes';
 
 import Heading from './Heading';
 import FormProject from './FormProject';
 import { CardBox } from './Boxes';
+import Prefetch from 'components/Prefetch';
 
 const Dashboard = ({ user }) => {
   const { projects, isError, isLoading, mutate: mutateProjects } = useProjects();
@@ -57,7 +58,11 @@ const Dashboard = ({ user }) => {
       callbak={() => setForm(false)}
     />}
 
-    {/* <pre>{JSON.stringify(projects, null, 2)}</pre> */}
+    {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}
+
+    <Prefetch uri={APIROUTES.GET.CLIENTS} />
+    <Prefetch uri={APIROUTES.GET.USERS} />
+    <Prefetch uri={APIROUTES.GET.LICENSE} />
   </>;
 }
 

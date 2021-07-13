@@ -29,7 +29,7 @@ export default function Modules({ user, project }) {
 
   const batchModules = getBatchModules(currentBatch, modules);
 
-  if (isError) return <>-----ERROR-----</>;
+  if (isError) return <></>;
   if (isLoading) return null;
 
   if (currentBatch.modules.length == 0) return <NoModules project={project} isAdmin={isAdmin(user, project)} />;

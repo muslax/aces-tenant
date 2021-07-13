@@ -16,7 +16,7 @@ const Login = () => {
     setSubmitting(true)
 
     const body = {
-      username: e.currentTarget.username.value,
+      username: e.currentTarget.username.value.toLowerCase(),
       password: e.currentTarget.password.value,
     }
 
@@ -38,15 +38,15 @@ const Login = () => {
   }
 
   const inputBase = "w-full px-3 py-2 rounded border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-  const btnBase = "bg-blue-600 w-full py-2 font-bold text-gray-50 rounded focus:outline-none focus:ring focus:ring-blue-200 focus:ring-opacity-50 active:text-white active:bg-plum-700"
+  const btnBase = "bg-green-500 hover:bg-green-600 active:bg-green-700 w-full py-2 font-bold text-gray-50 rounded focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-green-400 focus:ring-opacity--50 active:text-white"
 
   return <>
     <Head>
       <title>ACES Login</title>
     </Head>
-    <div className="flex flex-col items-center justify-center w-full min-h-screen border-t-8 border-blue-500 py-10">
-      <div className="rounded-md border-4 border-plum-200 border-opacity-50">
-        <div className="rounded border border-plum-300 hover:border-plum-400 shadow-sm p-5">
+    <div className="flex flex-col items-center justify-center w-full min-h-screen border-t-8 border-gray-600 py-10">
+      <div className="rounded-md border-4 border-gray-100 border-opacity--50 mb-16">
+        <div className="rounded border border-gray-400 border-opacity-50 hover:border-opacity-80 shadow-sm p-5">
           <form className="w-64" onSubmit={handleSubmit}>
             <div className="flex justify-center mb-4">
               {/* <ACESCapsPlum10 /> */}

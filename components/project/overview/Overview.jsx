@@ -113,60 +113,7 @@ export default function Overview({ user, project, mutate }) {
       mutate={mutate}
     />
 
-    <div className="my-10">
-      {!showInfo && !showForm && isAdmin() && <div className="text-center">
-        <button
-          className="rounded-sm border h-8 px-5 font-medium border-gray-300 hover:border-gray-400 active:border-gray-500 text-gray-600 active:text-gray-800"
-          onClick={e => setShowForm(true)}
-        >Create New Batch</button>
-      </div>}
 
-      {showForm && (
-        <div className="flex flex-col sm:flex-rows sm:flex-wraps items-center justify-start sm:justify-center space-y-2 pr-4">
-
-          <div className="bg-yellow-100- flex items-center justify-start">
-            <label className="w-24 text-right whitespace-nowrap mr-2">Nama Batch:</label>
-            <input
-              type="text"
-              autoFocus
-              placeholder="Maks. 30 karakter"
-              maxLength="30"
-              className="input-project w-52" value={title}
-              onChange={e => setTitle(e.target.value)}
-            />
-          </div>
-
-          <div className="bg-green-100- flex items-center justify-start">
-            <label className="w-24 text-right whitespace-nowrap mr-2">Tanggal:</label>
-            <input
-              type="date"
-              value={date}
-              className="input-project w-52"
-              placeholder="dd-mm-yyyy"
-              onChange={e => setDate(e.target.value)}
-            />
-          </div>
-
-          <div className="flex items-center justify-start pt-2s">
-            <label className="w-24 text-right whitespace-nowrap mr-2">&nbsp;</label>
-            <div className="w-52 flex space-x-3">
-              <button
-                className="flex-grow rounded-sm borders h-8 px-4 font-medium bg-green-500 hover:bg-green-600 active:bg-green-700 text-white"
-                onClick={saveNewBatch}
-              >Save</button>
-              <button
-                className="rounded-sm border h-8 px-4 font-medium border-gray-300 hover:border-gray-400 active:border-gray-500 text-gray-500 hover:text-gray-600 active:text-gray-700"
-                onClick={e => setShowForm(false)}
-              >Cancel</button>
-            </div>
-          </div>
-
-          <div className="flex space-x-3 mb-4">
-
-          </div>
-        </div>
-      )}
-    </div>
 
     {/* <pre>{JSON.stringify(project, null, 2)}</pre> */}
 

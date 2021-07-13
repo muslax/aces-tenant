@@ -16,7 +16,7 @@ const Billing = () => {
       <title>Billing - ACES</title>
     </Head>
     <Heading title="Billing"></Heading>
-    <pre>{JSON.stringify(user, null, 2)}</pre>
+    {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}
   </>;
 }
 

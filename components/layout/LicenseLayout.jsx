@@ -16,7 +16,7 @@ export default function LicenseLayout({ children }) {
   }
 
   return <>
-    <div className="bg-white border-b border-gray-200">
+    <div className="bg-gray-300 bg-opacity-80 border-b border-gray-300">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4">
         <div className="flex h-7 items-center">
           <div className="flex mr-3 border-r- border-gray-300">
@@ -34,7 +34,7 @@ export default function LicenseLayout({ children }) {
             </div>
           </div>
           <div className="flex items-center text-xs">
-            <div className="hidden sm:block text-indigo-500 font-semibolds uppercase">
+            <div className="hidden sm:block text-indigo--500 font-semibolds uppercase">
               {user && user.fullname}
             </div>
             <div className="text-xs text-gray-600 leading-4 ml-3">
