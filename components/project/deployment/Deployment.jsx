@@ -146,7 +146,9 @@ export default function Deployment({ user, project, mutate }) {
   const [schedules, setSchedules] = useState([]);
   const [submitting, setSubmitting] = useState(false);
   const [groupsMeta, setGroupsMeta] = useState(null);
-
+  const [token, setToken] = useState('');
+  const [order, setOrder] = useState(1);
+  const [date1, setDate1] = useState(null);
   const [date2, setDate2] = useState(null);
   const [timing, setTiming] = useState("slot");
 
@@ -168,12 +170,17 @@ export default function Deployment({ user, project, mutate }) {
 
   useEffect(() => {
     setCurrentBatch(getCurrentBatch(project));
+    setToken(currentBatch.token);
+    setDate1(currentBatch.date1);
+    setDate2(currentBatch.date2);
+    setOrder(currentBatch.order);
+    setTiming(currentBatch.timing);
   }, [project])
 
   useEffect(() => {
     if (timing == "2" || timing == "3") {
       const duration = timing == "2" ? 1 : 2;
-      const wibStr = `${currentBatch.date1} 23:00`;
+      const wibStr = `${date1} 23:00`;
       // const d1 = dayjs(currentBatch.date1);
       const d1 = dayjs(wibStr).tz('Asia/Jakarta');
       const d2 = d1.add(duration, 'd');
@@ -181,7 +188,7 @@ export default function Deployment({ user, project, mutate }) {
       // alert(d2.toISOString().substr(0, 10));
       setDate2(d2Str);
     } else {
-      setDate2("");
+      setDate2(null);
     }
   }, [timing])
 
@@ -196,86 +203,127 @@ export default function Deployment({ user, project, mutate }) {
     mutateGroups();
   }
 
+  async function saveTestMode(e) {
+    setSubmitting(true);
+    const t = timing == "2" || timing == "3" ? "date2" : timing;
+    const body = {
+      id: currentBatch._id,
+      order: order,
+      timing: t,
+      date1: date1,
+      date2: date2,
+    }
+    console.log(body)
+    await fetchJson(APIROUTES.POST.SAVE_TEST_MODE, generatePOSTData(body));
+    mutate();
+    setSubmitting(false);
+  }
+
+  const testTiming = {
+    slot:  'Hanya dapat diakses pada jam sesuai jadwal.',
+    date1: 'Dapat diakses mulai pagi hingga Pukul 23.00 WIB.',
+    2: 'Dapat diakses hingga Pukul 23.00 tanggal ',
+    3: 'Dapat diakses hingga Pukul 23.00 tanggal ',
+  }
+
   return (
-    <div className="">
-      <div className="border-b pb-2 mb-2">
+    <div className="-mt-2">
+      <div className="border-b pb-2 mb-3">
         <Subhead title="Settings"></Subhead>
       </div>
 
-      <table className="w-full">
-        <tbody>
-          <tr><td width="17%"></td><td></td></tr>
-
-          <tr className="border--t">
-            <td className="py-2">
-            Tanggal:
-            </td>
-            <td className="p-0 pb-2">
-              <input type="text" readOnly value={currentBatch.date1}
-                className="text-sm w-32 h-8 leading-tight px-2 py-1 rounded bg-gray-100 border-gray-100 focus:bg-white focus:border-blue-300 focus:ring-blue-100"
-              />
-            </td>
-          </tr>
-
-          <tr className="border--t">
-            <td className="py-2">Token batch:</td>
-            <td className="p-0 pb-1">
-              <input type="text" value="yw-9kh" readOnly
-                className="text-sm h-8 w-20 leading-tight px-2 py-1 rounded bg-gray-100 border-gray-100 focus:bg-white focus:border-blue-300 focus:ring-blue-100"
-              />
-            </td>
-          </tr>
-
-          <tr className="border--t">
-            <td className="py-2">Urutan tes:</td>
-            <td className="p-0 pb--1 h-10">
-              <select type="text"
-                className="text-sm h-8 leading-tight pl-2 pr-10 py-1 rounded bg-gray-100 border-gray-100 focus:bg-white focus:border-blue-300 focus:ring-blue-100"
-              >
-                <option value="1">Urut</option>
-                <option value="0">Bebas</option>
-              </select>
-              <select type="text"
-                className="text-sm bg-none ml-2 h-8 leading-tight pl-2 pr-2 py-1 rounded bg-gray-100 border-gray-100 focus:bg-white focus:border-blue-300 focus:ring-blue-100"
-              >
-              {(range(1, 31)).map(i => <option key={i} value={i}>{i}</option>)}
-              </select>
-            </td>
-          </tr>
-          <tr className="border--t">
-            <td className="py-2">Waku tes:</td>
-            <td className="p-0 h-10">
-              <select type="text"
-                className="text-sm h-8 leading-tight pl-2 pr-10 py-1 rounded bg-gray-100 border-gray-100 focus:bg-white focus:border-blue-300 focus:ring-blue-100"
-                onChange={e => setTiming(e.target.value)}
-              >
-                <option value="slot">Sesuai jadwal</option>
-                <option value="date1">Sepanjang hari</option>
-                <option value="2">2 hari</option>
-                <option value="3">3 hari</option>
-              </select>
-              <input type="text" readOnly value={currentBatch.date1}
-                className="ml-2 text-sm w-24 h-8 leading-tight px-2 py-1 rounded bg-gray-100 border-gray-100 focus:bg-white focus:border-blue-300 focus:ring-blue-100"
-              />
-              <span className="ml-2">s.d.</span>
-              <input type="text" readOnly value={date2}
-                className="ml-2 text-sm w-24 h-8 leading-tight px-2 py-1 rounded bg-gray-100 border-gray-100 focus:bg-white focus:border-blue-300 focus:ring-blue-100"
-              />
-              {/* <span className="ml-3">{timing}</span> */}
-            </td>
-          </tr>
-
-
-          {/* <tr className="border-">
-            <td colSpan="2" className="pt-7 pb-2 font-bold">
-              <h4 className="border-b border-gray-300 pb-2">Diskusi & wawancara</h4>
-            </td>
-          </tr> */}
-
-        </tbody>
-
-
-      </table>
+      <div className="max-w-=2xl grid grid-cols-11 gap-0">
+        <div className="col-span-11 md:col-span-5">
+          <table className="w-full">
+            <tbody>
+              <tr className="border--t">
+                <td className="w-32 whitespace-nowrap pr-2 py-2">
+                Tanggal:
+                </td>
+                <td className="p-0 pb-2">
+                  <input
+                    type="date"
+                    value={date1}
+                    className="text-sm w-36 h-8 leading-tight px-2 py-1 rounded bg-gray-100 border-gray-100 focus:bg-white focus:border-blue-300 focus:ring-blue-100"
+                    onChange={e => setDate1(e.target.value)}
+                  />
+                </td>
+              </tr>
+              <tr className="border--t">
+                <td className="whitespace-nowrap pr-2 py-2">Token batch:</td>
+                <td className="p-0 pb-1">
+                  <input
+                    type="text"
+                    value={token}
+                    placeholder="5 - 15 karakter"
+                    onChange={e => setToken(e.target.value)}
+                    className="text-sm w-36 h-8 w-leading-tight px-2 py-1 rounded bg-gray-100 border-gray-100 focus:bg-white focus:border-blue-300 focus:ring-blue-100"
+                  />
+                </td>
+              </tr>
+              <tr className="border--t">
+                <td className="whitespace-nowrap pr-2 py-2">Urutan tes:</td>
+                <td className="p-0 pb--1 h-10">
+                  <select
+                    className="text-sm w-36 h-8 leading-tight pl-2 pr-10 py-1 rounded bg-gray-100 border-gray-100 focus:bg-white focus:border-blue-300 focus:ring-blue-100"
+                    onChange={e => setOrder(e.target.value)}
+                  >
+                    <option value="1">Urut</option>
+                    <option value="0">Bebas</option>
+                  </select>
+                </td>
+              </tr>
+              <tr className="border--t">
+                <td className="whitespace-nowrap pr-2 py-2">Waku tes:</td>
+                <td className="p-0 h-10">
+                  <select type="text"
+                    className="text-sm w-36 h-8 leading-tight pl-2 pr-8 py-1 rounded bg-gray-100 border-gray-100 focus:bg-white focus:border-blue-300 focus:ring-blue-100"
+                    onChange={e => setTiming(e.target.value)}
+                  >
+                    <option value="slot">Sesuai jadwal</option>
+                    <option value="date1">Sepanjang hari</option>
+                    <option value="2">2 hari</option>
+                    <option value="3">3 hari</option>
+                  </select>
+                  <span className="text-base ml-2">*</span>
+                </td>
+              </tr>
+              <tr>
+                <td colSpan="2" className="text-xs italic py-2">
+                  * {testTiming[timing]}{` `}
+                  {date2 && <><span className="text-green-600 font-bold">{date2}</span>.</>}
+                </td>
+              </tr>
+              <tr>
+                <td className="pr-3">
+                  <button
+                    className={`w-full rounded text-xs font-bold text-red-500 px-5 h-8
+            border hover:border-gray-400 focus:border-gray-400 focus:outline-none
+            focus:ring-2 focus:ring-offset-0 focus:ring-yellow-100`}
+                  >Cancel</button>
+                </td>
+                <td className="">
+                  <button
+                    className={`w-36 rounded text-xs font-bold text-white px-5 h-8
+            bg-green-500 hover:bg-green-600 focus:border--blue-300 focus:outline-none
+            focus:ring-1 focus:ring-offset-1 focus:ring-green-400`}
+                    onClick={saveTestMode}
+                  >Save</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div className="hidden md:block col-span-11 md:col-span-6 bg-yellow-50">
+          <pre>
+            TOKEN : {token}<br/>
+            ORDER : {order}<br/>
+            DATE1 : {date1}<br/>
+            DATE2 : {date2}<br/>
+            TIMING: {timing}<br/>
+          </pre>
+        </div>
+      </div>
 
       {groups && groups.length > 0 && (
         <div className="">
@@ -330,7 +378,7 @@ export default function Deployment({ user, project, mutate }) {
         <pre>RUNTIME {JSON.stringify(schedules, null, 2)}</pre>
       </div> */}
 
-      {/* <pre>BATCH {JSON.stringify(currentBatch, null, 2)}</pre> */}
+      <pre>BATCH {JSON.stringify(currentBatch, null, 2)}</pre>
 
       {submitting && <PostModal message="Save deployment data ..." />}
     </div>

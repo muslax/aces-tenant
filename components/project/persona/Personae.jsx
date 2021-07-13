@@ -105,7 +105,7 @@ export default function Personae({ user, project }) {
   return (
     <div className="">
       <div className="flex items-center space-x-4 mb-4">
-        <div className="relative flex-grow flex items-center">
+        <div className="relative flex-grow flex items-center border-r pr-4">
           <input
             type="text"
             disabled={form}
@@ -122,7 +122,7 @@ export default function Personae({ user, project }) {
           </div>
           <button
             disabled={form}
-            className="absolute top-1 right-2 pt-px text-gray-300 hover:text-gray-400"
+            className="absolute top-1 right-6 pt-px text-gray-300 hover:text-gray-400"
             onClick={e => setFilter('')}
           >
             <XCircleIcon className="w-5 h-5 "/>
@@ -131,30 +131,30 @@ export default function Personae({ user, project }) {
         <div className="flex space-x-3 text-xs">
         {isAdmin(user, project) && <>
           <button
-            className="button-trigger px-2"
+            className="button-trigger px-3"
             onClick={e => {
               if (!form) {
                 setForm(true);
                 setViewStack([]);
               }
             }}
-          >Add</button>
+          >Add<span className="hidden sm:inline">&nbsp;Names</span></button>
           <Link href={`/projects/${project._id}/import-csv`}>
             <a
               disabled={form}
               className="button-trigger px-3"
-            >Import CSV</a>
+            >Import<span className="hidden sm:inline">&nbsp;CSV</span></a>
           </Link>
         </>}
         {!isAdmin(user, project) && <>
           <button
-            className="rounded h-8 border border-gray-200 text-gray-400 px-2"
+            className="rounded h-8 border border-gray-200 text-gray-400 px-3"
             disabled
-          >Add</button>
+          >Add<span className="hidden sm:inline">&nbsp;Names</span></button>
           <button
             disabled={form}
             className="rounded h-8 border border-gray-200 text-gray-400 px-3"
-          >Import CSV</button>
+          >Import<span className="hidden sm:inline">&nbsp;CSV</span></button>
         </>}
         </div>
       </div>
@@ -162,7 +162,8 @@ export default function Personae({ user, project }) {
       {form && (
       <div className="mb-4">
         <p className="font--light mb-1">
-          Masukkan satu atau lebih nama lengkap. Setiap baris mewakili satu nama.
+          Masukkan satu atau lebih nama lengkap.
+          Setiap baris mewakili satu nama.
         </p>
         <textarea
           rows={4}
@@ -192,8 +193,8 @@ export default function Personae({ user, project }) {
       <div className="border-b pb-3">
         {getList().length > 0 && (
           <span className="text-gray-500">
-            Daftar nama dan nomor induk. Klik setiap baris untuk menampilkan
-            atau mengedit.
+            Daftar nama dan nomor induk. Klik setiap baris untuk{` `}
+            <span className="text-red-500 xs:text-blue-500 sm:text-green-500">menampilkan atau mengedit.</span>
           </span>
         )}
         {getList().length == 0 && (

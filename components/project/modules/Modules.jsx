@@ -35,7 +35,7 @@ export default function Modules({ user, project }) {
   if (currentBatch.modules.length == 0) return <NoModules project={project} isAdmin={isAdmin(user, project)} />;
 
   return (
-    <div className="">
+    <div className="-mt-2">
       <div className="border-b pb-2 mb-5">
         <Subhead title="Modul Batch">
           {isAdmin(user, project) && <Link href={`/projects/${project._id}/setup-modules`}>
