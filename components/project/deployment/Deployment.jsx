@@ -146,11 +146,11 @@ export default function Deployment({ user, project, mutate }) {
   const [schedules, setSchedules] = useState([]);
   const [submitting, setSubmitting] = useState(false);
   const [groupsMeta, setGroupsMeta] = useState(null);
-  const [token, setToken] = useState('');
-  const [order, setOrder] = useState(1);
-  const [date1, setDate1] = useState(null);
-  const [date2, setDate2] = useState(null);
-  const [timing, setTiming] = useState("slot");
+  const [token, setToken] = useState(currentBatch.token);
+  const [order, setOrder] = useState(currentBatch.order);
+  const [date1, setDate1] = useState(currentBatch.date1);
+  const [date2, setDate2] = useState(currentBatch.date2);
+  const [timing, setTiming] = useState(currentBatch.timing);
 
 
   useEffect(() => {
@@ -171,15 +171,17 @@ export default function Deployment({ user, project, mutate }) {
   useEffect(() => {
     setCurrentBatch(getCurrentBatch(project));
     setToken(currentBatch.token);
+    setOrder(currentBatch.order);
     setDate1(currentBatch.date1);
     setDate2(currentBatch.date2);
-    setOrder(currentBatch.order);
+    // const t = currentBatch.timing;
+    // setTiming(t == "slot" || t == "date1" ? t : "2");
     setTiming(currentBatch.timing);
   }, [project])
 
   useEffect(() => {
-    if (timing == "2" || timing == "3") {
-      const duration = timing == "2" ? 1 : 2;
+    if (timing == "2days" || timing == "3days") {
+      const duration = timing == "2days" ? 1 : 2;
       const wibStr = `${date1} 23:00`;
       // const d1 = dayjs(currentBatch.date1);
       const d1 = dayjs(wibStr).tz('Asia/Jakarta');
@@ -205,11 +207,12 @@ export default function Deployment({ user, project, mutate }) {
 
   async function saveTestMode(e) {
     setSubmitting(true);
-    const t = timing == "2" || timing == "3" ? "date2" : timing;
+    // const t = timing == "2days" || timing == "3days" ? "date2" : timing;
     const body = {
       id: currentBatch._id,
+      token: token,
       order: order,
-      timing: t,
+      timing: timing,
       date1: date1,
       date2: date2,
     }
@@ -222,8 +225,8 @@ export default function Deployment({ user, project, mutate }) {
   const testTiming = {
     slot:  'Hanya dapat diakses pada jam sesuai jadwal.',
     date1: 'Dapat diakses mulai pagi hingga Pukul 23.00 WIB.',
-    2: 'Dapat diakses hingga Pukul 23.00 tanggal ',
-    3: 'Dapat diakses hingga Pukul 23.00 tanggal ',
+    '2days': 'Dapat diakses hingga Pukul 23.00 tanggal ',
+    '3days': 'Dapat diakses hingga Pukul 23.00 tanggal ',
   }
 
   return (
@@ -243,7 +246,7 @@ export default function Deployment({ user, project, mutate }) {
                 <td className="p-0 pb-2">
                   <input
                     type="date"
-                    value={date1}
+                    defaultValue={currentBatch.date1}
                     className="text-sm w-36 h-8 leading-tight px-2 py-1 rounded bg-gray-100 border-gray-100 focus:bg-white focus:border-blue-300 focus:ring-blue-100"
                     onChange={e => setDate1(e.target.value)}
                   />
@@ -254,7 +257,7 @@ export default function Deployment({ user, project, mutate }) {
                 <td className="p-0 pb-1">
                   <input
                     type="text"
-                    value={token}
+                    defaultValue={currentBatch.token}
                     placeholder="5 - 15 karakter"
                     onChange={e => setToken(e.target.value)}
                     className="text-sm w-36 h-8 w-leading-tight px-2 py-1 rounded bg-gray-100 border-gray-100 focus:bg-white focus:border-blue-300 focus:ring-blue-100"
@@ -266,6 +269,7 @@ export default function Deployment({ user, project, mutate }) {
                 <td className="p-0 pb--1 h-10">
                   <select
                     className="text-sm w-36 h-8 leading-tight pl-2 pr-10 py-1 rounded bg-gray-100 border-gray-100 focus:bg-white focus:border-blue-300 focus:ring-blue-100"
+                    defaultValue={currentBatch.order}
                     onChange={e => setOrder(e.target.value)}
                   >
                     <option value="1">Urut</option>
@@ -278,12 +282,13 @@ export default function Deployment({ user, project, mutate }) {
                 <td className="p-0 h-10">
                   <select type="text"
                     className="text-sm w-36 h-8 leading-tight pl-2 pr-8 py-1 rounded bg-gray-100 border-gray-100 focus:bg-white focus:border-blue-300 focus:ring-blue-100"
+                    defaultValue={currentBatch.timing}
                     onChange={e => setTiming(e.target.value)}
                   >
                     <option value="slot">Sesuai jadwal</option>
                     <option value="date1">Sepanjang hari</option>
-                    <option value="2">2 hari</option>
-                    <option value="3">3 hari</option>
+                    <option value="2days">2 hari</option>
+                    <option value="3days">3 hari</option>
                   </select>
                   <span className="text-base ml-2">*</span>
                 </td>
@@ -315,13 +320,13 @@ export default function Deployment({ user, project, mutate }) {
           </table>
         </div>
         <div className="hidden md:block col-span-11 md:col-span-6 bg-yellow-50">
-          <pre>
+          {/* <pre>
             TOKEN : {token}<br/>
             ORDER : {order}<br/>
             DATE1 : {date1}<br/>
             DATE2 : {date2}<br/>
             TIMING: {timing}<br/>
-          </pre>
+          </pre> */}
         </div>
       </div>
 
